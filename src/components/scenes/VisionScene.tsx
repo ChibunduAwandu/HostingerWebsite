@@ -1,15 +1,16 @@
 import { Html, Line } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { SceneLabel } from '../ui/SceneLabel';
 
 type VisionSceneProps = {
   worldPosition: [number, number, number];
   isActive: boolean;
+  prefersReducedMotion: boolean;
+  layers: LayerState;
 };
 
-type LayerState = {
+export type LayerState = {
   raw: boolean;
   edge: boolean;
   lane: boolean;
@@ -23,13 +24,11 @@ const vehicleConfigs = [
   { lane: -0.15, offset: 8.4, color: '#7B2FFF' }
 ];
 
-export const VisionScene = ({ worldPosition, isActive }: VisionSceneProps) => {
-  const [layers, setLayers] = useState<LayerState>({
-    raw: true,
-    edge: false,
-    lane: true,
-    boxes: true
-  });
+export const VisionScene = ({
+  worldPosition,
+  prefersReducedMotion,
+  layers
+}: VisionSceneProps) => {
   const vehiclesRef = useRef<Array<THREE.Group | null>>([]);
 
   const laneLeft = useMemo(
@@ -60,21 +59,27 @@ export const VisionScene = ({ worldPosition, isActive }: VisionSceneProps) => {
       }
 
       const config = vehicleConfigs[index];
-      const z = ((state.clock.elapsedTime * 2.5 + config.offset) % 16) - 8;
+      const speed = prefersReducedMotion ? 1.2 : 2.4;
+      const z = ((state.clock.elapsedTime * speed + config.offset) % 16) - 8;
       vehicle.position.set(config.lane, -1.15, z);
     });
   });
 
   return (
     <group position={worldPosition}>
-      <SceneLabel eyebrow="Scene 05" position={[0, 6.4, 0]} title="Vision & Autonomy" />
-
       {layers.raw ? (
         <mesh position={[0, -1.6, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[8, 20]} />
           <meshStandardMaterial color="#0f1018" emissive="#091421" emissiveIntensity={0.12} />
         </mesh>
       ) : null}
+
+      {[-3.6, 3.6].map((x, index) => (
+        <mesh key={x} position={[x, 1.25, 0]} rotation={[0, 0, index === 0 ? 0.22 : -0.22]}>
+          <boxGeometry args={[0.14, 4.2, 16.5]} />
+          <meshBasicMaterial color={index === 0 ? '#00D4FF' : '#00FF94'} opacity={0.18} transparent />
+        </mesh>
+      ))}
 
       {Array.from({ length: 9 }).map((_, index) => (
         <mesh key={index} position={[0, -1.57, index * 2.2 - 8.8]}>
@@ -124,53 +129,22 @@ export const VisionScene = ({ worldPosition, isActive }: VisionSceneProps) => {
         </group>
       ))}
 
-      <mesh position={[0, 1.85, -7.6]}>
-        <planeGeometry args={[9.5, 3.4]} />
+      <mesh position={[0, 1.9, -7.6]}>
+        <planeGeometry args={[9.8, 3.6]} />
         <meshBasicMaterial color="#0d1726" transparent opacity={0.8} />
       </mesh>
-      <Html position={[0, 1.85, -7.55]} center distanceFactor={10}>
-        <div className="flex h-44 w-[28rem] items-center justify-center rounded-[32px] border border-cyan/20 bg-gradient-to-br from-cyan/10 via-slate-950 to-purple/10 text-center text-sm uppercase tracking-[0.38em] text-cyan/70">
-          road feed / simulated perception plane
-        </div>
-      </Html>
-
-      <Html position={[6.1, 2.6, 0]} distanceFactor={11}>
-        <div className="glass-panel w-72 rounded-3xl p-5 text-white">
-          <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan/75">
-            Perception Layers
+      <Html position={[0, 1.9, -7.55]} center distanceFactor={10}>
+        <div className="flex h-44 w-[min(30rem,80vw)] flex-col justify-between rounded-[32px] border border-cyan/20 bg-gradient-to-br from-cyan/10 via-slate-950 to-purple/10 p-5 text-left">
+          <div className="text-[10px] uppercase tracking-[0.32em] text-cyan/70">Perception Feed</div>
+          <div className="grid gap-2 text-sm text-slate-300">
+            <div>YOLO pedestrian tracking · real-time object localization</div>
+            <div>Lane classification logic with OpenCV + MLP features</div>
+            <div>CARLA simulation used as controlled test surface</div>
           </div>
-          <div className="mb-4 font-heading text-lg font-semibold">Runtime toggles</div>
-          <div className="grid gap-2">
-            {[
-              ['raw', 'Raw View'],
-              ['edge', 'Edge Detection'],
-              ['lane', 'Lane Overlay'],
-              ['boxes', 'Bounding Boxes']
-            ].map(([key, label]) => {
-              const typedKey = key as keyof LayerState;
-              const active = layers[typedKey];
-
-              return (
-                <button
-                  className={`rounded-2xl px-4 py-3 text-left text-sm transition ${
-                    active ? 'bg-cyan/15 text-cyan' : 'bg-white/5 text-slate-300'
-                  }`}
-                  key={key}
-                  onClick={() =>
-                    setLayers((current) => ({
-                      ...current,
-                      [typedKey]: !current[typedKey]
-                    }))
-                  }
-                  type="button"
-                >
-                  {label}
-                </button>
-              );
-            })}
-          </div>
-          <div className="mt-4 text-xs uppercase tracking-[0.28em] text-slate-400">
-            CARLA · OpenCV · CNN YOLO · MLP Lane Classifier · Viola-Jones
+          <div className="grid grid-cols-3 gap-2 text-xs uppercase tracking-[0.22em] text-slate-400">
+            <div className="rounded-2xl border border-white/10 bg-black/25 px-3 py-2">FPS 29</div>
+            <div className="rounded-2xl border border-white/10 bg-black/25 px-3 py-2">CONF 0.94</div>
+            <div className="rounded-2xl border border-white/10 bg-black/25 px-3 py-2">LANE OK</div>
           </div>
         </div>
       </Html>

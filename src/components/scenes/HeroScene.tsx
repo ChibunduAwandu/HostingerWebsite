@@ -1,43 +1,55 @@
-import { Html, Sphere } from '@react-three/drei';
+import { Icosahedron, Torus } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { gsap } from 'gsap';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { resumeHref, type SectionId } from '../../data/scenes.config';
+import { type SectionId } from '../../data/scenes.config';
 import { useMouseParallax } from '../../hooks/useMouseParallax';
-import { SceneLabel } from '../ui/SceneLabel';
 
 type HeroSceneProps = {
   worldPosition: [number, number, number];
   isActive: boolean;
   onNavigate: (sectionId: SectionId) => void;
+  isMobile: boolean;
+  prefersReducedMotion: boolean;
 };
 
-export const HeroScene = ({ worldPosition, isActive, onNavigate }: HeroSceneProps) => {
+export const HeroScene = ({
+  worldPosition,
+  prefersReducedMotion
+}: HeroSceneProps) => {
   const groupRef = useRef<THREE.Group>(null);
-  const orbRef = useRef<THREE.Mesh>(null);
-  const ringRef = useRef<THREE.Mesh>(null);
+  const coreRef = useRef<THREE.Mesh>(null);
+  const ringARef = useRef<THREE.Mesh>(null);
+  const ringBRef = useRef<THREE.Mesh>(null);
+  const pillarRefs = useRef<Array<THREE.Mesh | null>>([]);
   const mouse = useMouseParallax();
 
   useEffect(() => {
-    if (!groupRef.current || !orbRef.current || !ringRef.current) {
+    if (!groupRef.current || !coreRef.current || !ringARef.current || !ringBRef.current) {
       return;
     }
 
     const timeline = gsap.timeline();
     timeline
-      .fromTo(groupRef.current.position, { y: -1.8 }, { y: 0, duration: 1.4, ease: 'power3.out' })
+      .fromTo(groupRef.current.position, { y: -1.8 }, { y: 0, duration: 1.3, ease: 'power3.out' })
       .fromTo(
-        orbRef.current.scale,
-        { x: 0.5, y: 0.5, z: 0.5 },
-        { x: 1, y: 1, z: 1, duration: 1.2, ease: 'power3.out' },
-        0.18
+        coreRef.current.scale,
+        { x: 0.55, y: 0.55, z: 0.55 },
+        { x: 1, y: 1, z: 1, duration: 1.1, ease: 'power3.out' },
+        0.1
       )
       .fromTo(
-        ringRef.current.scale,
-        { x: 0.6, y: 0.6, z: 0.6 },
-        { x: 1, y: 1, z: 1, duration: 1.3, ease: 'power3.out' },
-        0.25
+        [ringARef.current.scale, ringBRef.current.scale],
+        { x: 0.8, y: 0.8, z: 0.8 },
+        { x: 1, y: 1, z: 1, duration: 1.1, stagger: 0.08, ease: 'power3.out' },
+        0.16
+      )
+      .fromTo(
+        pillarRefs.current.filter(Boolean),
+        { y: -1.5, opacity: 0.2 },
+        { y: 0, opacity: 1, duration: 1.15, stagger: 0.06, ease: 'power3.out' },
+        0.22
       );
 
     return () => {
@@ -46,88 +58,78 @@ export const HeroScene = ({ worldPosition, isActive, onNavigate }: HeroSceneProp
   }, []);
 
   useFrame((state, delta) => {
-    if (!groupRef.current || !orbRef.current || !ringRef.current) {
+    if (!groupRef.current || !coreRef.current || !ringARef.current || !ringBRef.current) {
       return;
     }
 
-    const hoverOffset = new THREE.Vector3(mouse.current.x * 0.7, mouse.current.y * 0.4, 0);
-    orbRef.current.position.lerp(new THREE.Vector3(hoverOffset.x, 1.7 + hoverOffset.y, 0), 0.05);
-    orbRef.current.rotation.y += delta * 0.22;
-    orbRef.current.rotation.x += delta * 0.06;
-    ringRef.current.rotation.z -= delta * 0.35;
-    ringRef.current.rotation.x += delta * 0.08;
-    groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.55) * 0.18;
+    const parallaxX = prefersReducedMotion ? 0 : mouse.current.x * 0.75;
+    const parallaxY = prefersReducedMotion ? 0 : mouse.current.y * 0.42;
+    coreRef.current.position.lerp(new THREE.Vector3(1.4 + parallaxX, 1.55 + parallaxY, -0.2), 0.05);
+
+    if (!prefersReducedMotion) {
+      coreRef.current.rotation.y += delta * 0.22;
+      coreRef.current.rotation.x += delta * 0.08;
+      ringARef.current.rotation.z -= delta * 0.18;
+      ringARef.current.rotation.x += delta * 0.05;
+      ringBRef.current.rotation.y += delta * 0.16;
+      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.44) * 0.18;
+    }
   });
 
   return (
     <group position={worldPosition} ref={groupRef}>
-      <SceneLabel eyebrow="Scene 01" position={[0, 4.8, 0]} title="The Lab Entrance" />
+      <mesh position={[0, -1.8, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[3.3, 4.9, 96]} />
+        <meshBasicMaterial color="#00D4FF" opacity={0.18} transparent />
+      </mesh>
 
-      <Sphere args={[1.85, 32, 32]} ref={orbRef} position={[0, 1.7, 0]}>
+      {[
+        [-3.8, 0, -1.8],
+        [-2.4, 0.5, 1.8],
+        [2.4, 0.45, -2],
+        [3.8, 0, 1.7]
+      ].map((position, index) => (
+        <mesh key={index} position={position as [number, number, number]} ref={(node) => (pillarRefs.current[index] = node)}>
+          <boxGeometry args={[0.5, 3.6 + (index % 2) * 1.2, 0.5]} />
+          <meshStandardMaterial
+            color="#08111d"
+            emissive={index % 2 === 0 ? '#00D4FF' : '#7B2FFF'}
+            emissiveIntensity={0.22}
+            metalness={0.55}
+            roughness={0.18}
+          />
+        </mesh>
+      ))}
+
+      <Icosahedron args={[1.95, 1]} position={[1.4, 1.55, -0.2]} ref={coreRef}>
         <meshPhysicalMaterial
-          color="#091830"
+          color="#07111d"
           emissive="#00D4FF"
-          emissiveIntensity={1.1}
-          roughness={0.18}
-          metalness={0.4}
+          emissiveIntensity={1.05}
+          roughness={0.14}
+          metalness={0.55}
           wireframe
         />
-      </Sphere>
+      </Icosahedron>
 
-      <mesh ref={ringRef} position={[0, 1.7, 0]} rotation={[0.8, 0.1, 0]}>
-        <torusGeometry args={[2.6, 0.05, 16, 160]} />
-        <meshBasicMaterial color="#00D4FF" transparent opacity={0.8} />
-      </mesh>
+      <Torus
+        args={[2.6, 0.06, 18, 160]}
+        position={[1.4, 1.55, -0.2]}
+        ref={ringARef}
+        rotation={[0.85, 0.1, 0]}
+      >
+        <meshBasicMaterial color="#00D4FF" opacity={0.82} transparent />
+      </Torus>
 
-      <mesh position={[0, 1.7, 0]} rotation={[1.1, 0.2, 0.8]}>
-        <torusGeometry args={[2.95, 0.02, 16, 160]} />
-        <meshBasicMaterial color="#7B2FFF" transparent opacity={0.5} />
-      </mesh>
+      <Torus
+        args={[3.2, 0.03, 18, 160]}
+        position={[1.4, 1.55, -0.2]}
+        ref={ringBRef}
+        rotation={[1.08, 0.22, 0.75]}
+      >
+        <meshBasicMaterial color="#7B2FFF" opacity={0.48} transparent />
+      </Torus>
 
-      <Html fullscreen>
-        <section
-          className={`section-shell transition-opacity duration-700 ${
-            isActive ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <div className="pointer-events-auto mx-auto flex w-full max-w-6xl items-center justify-between gap-10">
-            <div className="max-w-2xl">
-              <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.42em] text-cyan/80">
-                Interactive AI & Systems Laboratory
-              </div>
-              <h1 className="font-heading text-5xl font-semibold tracking-tight text-white md:text-7xl">
-                Chibundu Awandu
-              </h1>
-              <div className="mt-3 text-2xl font-medium text-cyan md:text-3xl">
-                Software Engineer @ Apple
-              </div>
-              <p className="mt-5 max-w-xl text-base leading-8 text-slate-300 md:text-lg">
-                AI infrastructure, backend systems, computer vision, and quantitative
-                experimentation rendered as one navigable world.
-              </p>
-              <div className="mt-4 flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.35em] text-slate-400">
-                <span>AI</span>
-                <span>Systems</span>
-                <span>Markets</span>
-                <span>Vision</span>
-              </div>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <button className="glass-button" onClick={() => onNavigate('engineer')} type="button">
-                  Explore The Lab
-                </button>
-                <a
-                  className="glass-button"
-                  href={resumeHref}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  View Resume
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Html>
     </group>
   );
 };

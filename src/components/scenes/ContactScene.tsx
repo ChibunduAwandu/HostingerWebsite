@@ -1,14 +1,15 @@
 import { Html } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { FileText, Github, Linkedin, Mail } from 'lucide-react';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { resumeHref } from '../../data/scenes.config';
-import { ContactForm } from '../ui/ContactForm';
-import { SceneLabel } from '../ui/SceneLabel';
 
 type ContactSceneProps = {
   worldPosition: [number, number, number];
+  isActive: boolean;
+  prefersReducedMotion: boolean;
+  pulseSignal: number;
 };
 
 const orbitLinks = [
@@ -34,23 +35,30 @@ const orbitLinks = [
   }
 ] as const;
 
-export const ContactScene = ({ worldPosition }: ContactSceneProps) => {
+export const ContactScene = ({
+  worldPosition,
+  prefersReducedMotion,
+  pulseSignal
+}: ContactSceneProps) => {
   const ringRef = useRef<THREE.Mesh>(null);
   const orbitRefs = useRef<Array<THREE.Group | null>>([]);
   const pulseBoostRef = useRef(0);
 
   const orbitAngles = useMemo(() => orbitLinks.map((_, index) => index * (Math.PI / 2)), []);
 
+  useEffect(() => {
+    if (pulseSignal > 0) {
+      pulseBoostRef.current = 1;
+    }
+  }, [pulseSignal]);
+
   useFrame((state, delta) => {
     if (ringRef.current) {
-      const base =
-        0.4 + ((state.clock.elapsedTime * 0.5) % 1) * 2.3 + pulseBoostRef.current * 0.4;
+      const cycle = ((state.clock.elapsedTime * 0.5) % 1) * 2.2;
+      const base = 0.45 + cycle + pulseBoostRef.current * 0.48;
       ringRef.current.scale.set(base, base, base);
       const material = ringRef.current.material as THREE.MeshBasicMaterial;
-      material.opacity = Math.max(
-        0,
-        0.7 - (((state.clock.elapsedTime * 0.5) % 1) * 0.6 + pulseBoostRef.current * 0.1)
-      );
+      material.opacity = Math.max(0, 0.72 - (cycle * 0.22 + pulseBoostRef.current * 0.08));
     }
 
     orbitRefs.current.forEach((group, index) => {
@@ -58,8 +66,9 @@ export const ContactScene = ({ worldPosition }: ContactSceneProps) => {
         return;
       }
 
-      const angle = state.clock.elapsedTime * 0.4 + orbitAngles[index];
-      group.position.set(Math.cos(angle) * 3.4, 1.8 + Math.sin(angle * 1.4) * 0.28, Math.sin(angle) * 2.1);
+      const speed = prefersReducedMotion ? 0.18 : 0.36;
+      const angle = state.clock.elapsedTime * speed + orbitAngles[index];
+      group.position.set(Math.cos(angle) * 3.5, 1.8 + Math.sin(angle * 1.4) * 0.3, Math.sin(angle) * 2.2);
       group.lookAt(new THREE.Vector3(0, 1.4, 0));
     });
 
@@ -70,8 +79,6 @@ export const ContactScene = ({ worldPosition }: ContactSceneProps) => {
 
   return (
     <group position={worldPosition}>
-      <SceneLabel eyebrow="Scene 06" position={[0, 4.8, 0]} title="Connect" />
-
       <mesh position={[0, 1.3, 0]}>
         <cylinderGeometry args={[0.12, 0.22, 3.2, 24]} />
         <meshStandardMaterial color="#0d1829" emissive="#00D4FF" emissiveIntensity={0.6} />
@@ -80,6 +87,11 @@ export const ContactScene = ({ worldPosition }: ContactSceneProps) => {
       <mesh position={[0, -0.3, 0]} ref={ringRef} rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[1.2, 1.34, 72]} />
         <meshBasicMaterial color="#00D4FF" transparent opacity={0.75} />
+      </mesh>
+
+      <mesh position={[0, -1.72, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[4.2, 72]} />
+        <meshBasicMaterial color="#07111d" opacity={0.55} transparent />
       </mesh>
 
       {orbitLinks.map((item, index) => {
@@ -100,25 +112,6 @@ export const ContactScene = ({ worldPosition }: ContactSceneProps) => {
           </group>
         );
       })}
-
-      <Html position={[0, -2.8, 0]} center distanceFactor={10}>
-        <div className="max-w-2xl text-center">
-          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-cyan/75">
-            Opportunity Radar
-          </div>
-          <h2 className="font-heading text-3xl font-semibold text-white">
-            Open to AI infrastructure, backend systems, and quantitative engineering roles.
-          </h2>
-        </div>
-      </Html>
-
-      <Html position={[0, 0.2, 6.1]} center distanceFactor={11}>
-        <ContactForm
-          onSuccess={() => {
-            pulseBoostRef.current = 1;
-          }}
-        />
-      </Html>
     </group>
   );
 };

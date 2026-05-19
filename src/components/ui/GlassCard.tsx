@@ -9,7 +9,9 @@ type GlassCardProps = {
 
 export const GlassCard = ({ title, eyebrow, className = '', children }: GlassCardProps) => {
   return (
-    <div className={`glass-panel rounded-3xl p-5 text-white shadow-glass ${className}`}>
+    <div
+      className={`glass-panel relative rounded-[28px] p-5 text-white shadow-glass before:pointer-events-none before:absolute before:inset-px before:rounded-[27px] before:border before:border-white/5 before:content-[''] ${className}`}
+    >
       {eyebrow ? (
         <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan/75">
           {eyebrow}
