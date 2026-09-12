@@ -44,8 +44,10 @@ function ViewRig({
       Top: [0.01, 14, 0.01],
     };
     const fit = Math.max(1, 0.95 / (size.width / size.height));
-    const scale = (isolated ? 0.78 : 0.85 + amount * 0.32) * fit;
-    focus.current.set(0, exhibit.id === "car" && !isolated ? 1 : 2, 0);
+    const isCar = exhibit.id === "car";
+    const scale =
+      (isolated ? 0.78 : 0.85 + amount * (isCar ? 0.32 : 0.6)) * fit;
+    focus.current.set(0, isolated ? 2 : isCar ? 1 : 2 + amount * 0.8, 0);
     destination.current
       .set(...(direction[angle] as [number, number, number]))
       .multiplyScalar(scale)

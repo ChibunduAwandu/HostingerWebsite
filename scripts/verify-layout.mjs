@@ -4,6 +4,7 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
 import { chromium } from "playwright";
+import sharp from "sharp";
 
 const base = process.env.BASE_URL || "http://127.0.0.1:4276/";
 const out = path.resolve(
@@ -209,6 +210,29 @@ async function exerciseModel(page, id, count, name, options) {
     hash(after),
     `${id}: rendered pixels unchanged after explode`,
   );
+  if (id !== "car") {
+    const { data, info } = await sharp(after)
+      .removeAlpha()
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    const background = [...data.subarray(0, 3)];
+    let edgePixels = 0;
+    for (let y = 0; y < 8; y++)
+      for (let x = 0; x < info.width; x++) {
+        const offset = (y * info.width + x) * info.channels;
+        if (
+          background.some(
+            (channel, c) => Math.abs(data[offset + c] - channel) > 35,
+          )
+        )
+          edgePixels++;
+      }
+    assert.equal(
+      edgePixels,
+      0,
+      `${id}: exploded geometry clips the upper image edge`,
+    );
+  }
   await layout(page, `${options.label}/${id}/exploded`);
   await page.getByRole("slider").press("Home");
   await page.getByRole("slider").press("ArrowRight");
@@ -261,6 +285,15 @@ async function runCase(name, viewport, options = {}) {
     hasTouch: viewport.width < 541,
   });
   const page = await context.newPage();
+  if (process.env.WARMUP_BROWSER === "1") {
+    // Allow the host's normal automatic browser check to finish in this session.
+    // This does not bypass a CAPTCHA or change hosting security configuration.
+    await page.goto(base, { waitUntil: "domcontentloaded" });
+    await page
+      .getByRole("heading", { level: 1, name: "Built to think. Made to move." })
+      .waitFor({ timeout: 30000 });
+    await page.goto("about:blank");
+  }
   const errors = [],
     requests = [];
   page.on("pageerror", (e) => errors.push(e.message));
@@ -428,10 +461,19 @@ async function runCase(name, viewport, options = {}) {
       await ready(page, 13);
     }
     if (options.fallback) {
-      await page.locator(".collection-tabs button").filter({ hasText: "Unitree Go2" }).click();
-      await page.locator('.model-fallback img[src="/asset-previews/go2.webp"]').waitFor();
+      await page
+        .locator(".collection-tabs button")
+        .filter({ hasText: "Unitree Go2" })
+        .click();
+      await page
+        .locator('.model-fallback img[src="/asset-previews/go2.webp"]')
+        .waitFor();
       await page.locator(".stage-loading").waitFor({ state: "detached" });
-      assert(!await page.getByRole("button", { name: "Explode model", exact: true }).isEnabled());
+      assert(
+        !(await page
+          .getByRole("button", { name: "Explode model", exact: true })
+          .isEnabled()),
+      );
     }
     results.push({ name, status: "passed", viewport, layout: initialLayout });
     console.log(`PASS ${name}`);

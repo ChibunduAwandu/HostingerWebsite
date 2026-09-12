@@ -12,7 +12,7 @@ Generated screenshots and machine-readable results are in ignored `test-artifact
 
 ## Visual Review
 
-Assembled and exploded views were inspected for the car and robots, including mobile captures. Visual inspection caught and corrected quantized-attribute deformation that a successful TypeScript build alone could not catch. Model switching retains one Canvas to avoid false context-loss failures. The updated resume was rendered and checked as one page. The 1200x630 social image is a screenshot of the actual local application in a dedicated capture layout.
+Assembled and exploded views were inspected for the car and robots, including mobile captures. Visual inspection caught and corrected quantized-attribute deformation that a successful TypeScript build alone could not catch. A final review also corrected upper-edge clipping of fully exploded robot links; the test now checks the top image band for clipped geometry. Model switching retains one Canvas to avoid false context-loss failures. The updated resume was rendered and checked as one page. The 1200x630 social image is a screenshot of the actual local application in a dedicated capture layout.
 
 ## Build and Release
 
@@ -26,3 +26,5 @@ Assembled and exploded views were inspected for the car and robots, including mo
 ## Boundaries
 
 No real contact email is sent during automated testing. The visible contact CTA is a mailto link. The failover study is a UI simulation, not backend infrastructure testing. Robot poses are static source poses with illustrative assembly motion, not physical dynamics or model inference. Rack and motherboard are licensed previews pending signed-in model downloads. Safari, Firefox, and real iOS/Android devices have not been tested in this run.
+
+Hostinger can present an automatic browser-check page on the first visit. The initial live mobile run completed its interactions but its strict error check flagged that page's 403 and favicon response. Hosting security was not disabled. `WARMUP_BROWSER=1` allows a normal first navigation to complete the host's automatic check before measuring a subsequent visit in the same browser session; warmed-session results must not be described as first-visit results. No CAPTCHA is solved or bypassed.
