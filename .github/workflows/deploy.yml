@@ -1,44 +1,68 @@
-name: Deploy to Hostinger
+name: Verify and Publish
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: production-publish
+  cancel-in-progress: false
+
 jobs:
-  deploy:
+  verify:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 20
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 26
           cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run verify:layout
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          key: ${{ secrets.HOSTINGER_SSH_KEY }}
-          known_hosts: unnecessary
+          name: browser-verification
+          path: test-artifacts/collection/
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: production-build
+          path: dist/
+          retention-days: 7
 
-      - name: Deploy via rsync
+  deploy:
+    needs: verify
+    if: vars.HOSTINGER_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: production-build
+          path: dist/
+      - name: Install scoped deployment key and verified host key
+        env:
+          SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.HOSTINGER_KNOWN_HOSTS }}
+        run: |
+          test -n "$SSH_KEY" && test -n "$KNOWN_HOSTS"
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/hostinger_deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/hostinger_deploy ~/.ssh/known_hosts
+      - name: Publish assets then switch the entry page
         env:
           HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
           HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
           HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
           HOSTINGER_PATH: ${{ secrets.HOSTINGER_PATH }}
-        run: |
-          rsync -av --delete \
-            -e "ssh -p ${HOSTINGER_PORT} -o StrictHostKeyChecking=accept-new" \
-            dist/ "${HOSTINGER_USER}@${HOSTINGER_HOST}:${HOSTINGER_PATH}"
+        run: HOSTINGER_KEY="$HOME/.ssh/hostinger_deploy" bash scripts/deploy-hostinger.sh

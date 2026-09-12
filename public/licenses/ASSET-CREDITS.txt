@@ -1,0 +1,26 @@
+THE SYSTEMS COLLECTION - ASSET CREDITS
+
+CarConcept model and textures:
+Copyright 2024 Darmstadt Graphics Group GmbH. Eric Chadwick.
+CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept
+Modifications: geometry compression, texture resizing/WebP conversion, runtime assembly grouping, approximate transparent glass, presentation lighting, and exploded offsets.
+Khronos logo (2015) and 3D Commerce logo (2017): Khronos Group.
+See khronos-marks.txt. No manufacturer or Khronos endorsement is implied.
+
+Shadow Hand: Shadow Robot Company, via MuJoCo Menagerie. Apache 2.0.
+https://github.com/google-deepmind/mujoco_menagerie/tree/main/shadow_hand
+Unitree Go2: Unitree Robotics, via MuJoCo Menagerie. BSD 3-Clause.
+https://github.com/google-deepmind/mujoco_menagerie/tree/main/unitree_go2
+Franka Emika Panda: Franka Emika, via MuJoCo Menagerie. Apache 2.0.
+https://github.com/google-deepmind/mujoco_menagerie/tree/main/franka_emika_panda
+Robot modifications: reference-pose baking, collision mesh omission, Y-up GLB conversion, approximate PBR materials, Meshopt compression, link grouping, and illustrative explosion. Previews resized and compressed.
+Full original licenses are included alongside this file.
+
+Server Rack preview: Shalmon. CC BY 4.0.
+https://sketchfab.com/3d-models/server-rack-c144d837358d446998c7b63cd1bdf825
+MotherBoard 3d Model preview: ARComputerFundamentals. CC BY 4.0.
+https://sketchfab.com/3d-models/mother-board-3d-model-99a5f94e130a41c48590d59877f08663
+Preview modifications: resizing and WebP compression. These are preview images only, not redistributed model archives.
+
+Manrope and IBM Plex Mono: SIL Open Font License. See included font license files.
