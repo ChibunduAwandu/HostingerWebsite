@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
-import { chromium } from "playwright";
+import { launchVerificationBrowser } from "./verification-browser.mjs";
 import sharp from "sharp";
 
 const base = process.env.BASE_URL || "http://127.0.0.1:4276/";
@@ -51,7 +51,10 @@ const executablePath =
     () => macChrome,
     () => undefined,
   ));
-const browser = await chromium.launch({ executablePath, headless: true });
+const { browser, close: closeBrowser } = await launchVerificationBrowser({
+  executablePath,
+  headless: true,
+});
 const results = [];
 await fs.mkdir(out, { recursive: true });
 const hash = (buffer) => createHash("sha256").update(buffer).digest("hex");
@@ -285,12 +288,16 @@ async function runCase(name, viewport, options = {}) {
     hasTouch: viewport.width < 541,
   });
   const page = await context.newPage();
+  page.setDefaultTimeout(15000);
+  page.setDefaultNavigationTimeout(15000);
   if (process.env.WARMUP_BROWSER === "1") {
     // Allow the host's normal automatic browser check to finish in this session.
     // This does not bypass a CAPTCHA or change hosting security configuration.
-    await page.goto(base, { waitUntil: "domcontentloaded" });
+    await page.goto(`${base.split("#")[0]}#explorer`, {
+      waitUntil: "domcontentloaded",
+    });
     await page
-      .getByRole("heading", { level: 1, name: "Built to think. Made to move." })
+      .getByRole("heading", { level: 2, name: "Component explorer" })
       .waitFor({ timeout: 30000 });
     await page.goto("about:blank");
   }
@@ -319,7 +326,9 @@ async function runCase(name, viewport, options = {}) {
       route.fulfill({ status: 503, body: "Fixture: unavailable model" }),
     );
   try {
-    await page.goto(base, { waitUntil: "networkidle" });
+    await page.goto(`${base.split("#")[0]}#explorer`, {
+      waitUntil: "networkidle",
+    });
     await page.getByRole("heading", { level: 1 }).waitFor();
     const fallback = options.fallback || options.brokenAsset;
     if (fallback) {
@@ -507,10 +516,11 @@ try {
     (c) => !process.env.TEST_CASE || c[0] === process.env.TEST_CASE,
   ))
     await runCase(name, { width, height }, options);
-  if (!process.env.TEST_CASE) {
+  if (!process.env.TEST_CASE || process.env.TEST_CASE === "no-javascript") {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
-    await page.goto(base);
+    page.setDefaultTimeout(15000);
+    await page.goto(base, { waitUntil: "domcontentloaded", timeout: 15000 });
     assert(
       await page.getByRole("heading", { name: "Chibundu Awandu" }).isVisible(),
     );
@@ -518,10 +528,12 @@ try {
       await page.getByRole("link", { name: "Read my resume" }).isVisible(),
     );
     results.push({ name: "no-javascript", status: "passed" });
-    await context.close();
+    console.log("PASS no-javascript");
+    // The owned browser process closes this final context in teardown. Chrome can
+    // otherwise hang closing a JavaScript-disabled context after WebGL contexts.
   }
 } finally {
-  await browser.close();
+  await closeBrowser();
   server?.kill();
   await fs.writeFile(
     path.join(out, "results.json"),

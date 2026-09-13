@@ -22,6 +22,14 @@ CarConcept model/textures: Copyright 2024 Darmstadt Graphics Group GmbH; Eric Ch
 
 ## Modifications and Fidelity
 
+### Intelligence in Motion Addition
+
+The opening laboratory is a separate viewing mode sharing the renderer budget with the original explorer: only one Canvas is mounted at a time. Camera transitions connect three architectural stages. Public car geometry is reused; servers, pathways, pedestals, and scan visuals are original procedural geometry. The machine view is a stylized wireframe and GLSL sweep, not actual YOLO inference, LiDAR, or missing vehicle internals.
+
+`public/models/panda-motion.glb` is a new export from the same pinned, Apache-2.0-licensed Panda source. Unlike the original static exhibit, it retains all 11 body transforms, visual mesh parents, and an embedded 9.5-second animation. `scripts/build-panda-motion.py` uses damped least-squares IK with source joint limits and source wrist orientation. `scripts/prepare-panda-motion.mjs` packages translation/quaternion tracks and Meshopt compression. The gripped object follows the hand frame. This is offline kinematics, not a dynamics simulation, collision-checked path, controller, or safety-rated hardware instruction. The hand and Go2 remain inspection assets; they have not been given fabricated articulation.
+
+The guided sequence is opt-in. Manual chapter or control input cancels it. Ambient animation and playback stop when the laboratory is offscreen or the page is hidden. Reduced-motion users get instant camera changes and a manual timeline. The Panda animation loads only on reaching Act. Failed WebGL or assets preserve HTML controls, career content, and credited previews.
+
 The car's original uncompressed glTF and PNG textures are downloaded at the pinned revision. Meshes are welded/deduplicated and Meshopt-compressed. Textures are resized to at most 1024 pixels and converted to WebP. Source hierarchy maps the 97 source meshes to 15 useful assemblies. The source deliberately omits small hidden fasteners. The engine is labeled as supplied, not misrepresented as an EV battery or the EcoCar prototype.
 
 Robot visual meshes (MJCF geometry group 2) are baked in their source reference/home poses with MuJoCo, converted from Z-up to Y-up, and exported through Trimesh. Collision-only geometry and the physics runtime are not shipped. The hand is oriented upright in the exhibit. The hand has 25 source bodies but only 23 contain included visual geometry, so it does not expose empty/invented components. Robot colors/roughness are approximate PBR adaptations, not calibrated manufacturer finishes.

@@ -1,5 +1,9 @@
 # Collection Verification
 
+The subsequent employer-facing redesign and its accessibility testing are recorded in [design and accessibility decisions](DESIGN_ACCESSIBILITY.md), with the later [featured Apple case study](APPLE_EXPERIENCE.md) documented separately. The production observations below describe the earlier published release.
+
+This records the original collection release and its regression suite, which also passes with the new laboratory. The later local Intelligence in Motion implementation and its additional nine-configuration suite are described in [the experience notes](INTELLIGENCE_IN_MOTION.md). Build sizes and Hostinger observations below refer to the earlier published collection, not an assertion that the new laboratory has been deployed.
+
 September 12, 2026. Production build tested with installed Chrome on macOS. This is browser emulation, not physical mobile-device certification.
 
 ## Automated Checks

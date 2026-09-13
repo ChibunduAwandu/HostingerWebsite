@@ -26,11 +26,18 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run verify:layout
+      - run: npm run verify:lab
+      - run: npm run verify:a11y
+      - run: npm run verify:apple
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: browser-verification
-          path: test-artifacts/collection/
+          path: |
+            test-artifacts/collection/
+            test-artifacts/motion/
+            test-artifacts/accessibility/
+            test-artifacts/apple/
           retention-days: 7
       - uses: actions/upload-artifact@v4
         with:
