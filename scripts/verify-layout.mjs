@@ -65,7 +65,6 @@ async function layout(page, label) {
       ".stage-column",
       ".inspector",
       ".exhibit-intro",
-      ".site-header",
       ".collection-tabs",
       ".study-links",
     ].map((selector) => ({
@@ -348,12 +347,6 @@ async function runCase(name, viewport, options = {}) {
       );
     }
     const initialLayout = await layout(page, name);
-    await page.locator(".compute-assets").scrollIntoViewIfNeeded();
-    await page.waitForFunction(() =>
-      [...document.querySelectorAll(".compute-assets img")].every(
-        (image) => image.complete && image.naturalWidth > 0,
-      ),
-    );
     await page.screenshot({
       path: path.join(out, `${name}-page.png`),
       fullPage: true,
@@ -433,17 +426,6 @@ async function runCase(name, viewport, options = {}) {
       await page.evaluate(() => document.activeElement.textContent),
       /Credits/,
     );
-    await page
-      .getByRole("button", { name: "Fail worker 2", exact: true })
-      .click();
-    assert.equal(await page.getByText("50% share", { exact: true }).count(), 2);
-    await page
-      .getByRole("button", { name: "Recover worker 2", exact: true })
-      .click();
-    assert.equal(
-      await page.getByText("33.3% share", { exact: true }).count(),
-      3,
-    );
     for (const id of ["engineer", "connect"]) {
       await page.locator(`nav a[href="#${id}"]`).click();
       await page.waitForTimeout(options.reduced ? 50 : 700);
@@ -458,8 +440,6 @@ async function runCase(name, viewport, options = {}) {
       await page.locator(".email-link").getAttribute("href"),
       "mailto:chibunduawandu@gmail.com",
     );
-    for (const image of await page.locator(".compute-assets img").all())
-      assert(await image.evaluate((e) => e.complete && e.naturalWidth > 0));
     if (!options.brokenAsset)
       assert.deepEqual(errors, [], `${name}: browser errors`);
     if (options.brokenAsset) {

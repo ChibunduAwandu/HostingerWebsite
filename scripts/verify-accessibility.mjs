@@ -76,7 +76,7 @@ async function reflow(page, label) {
     if (document.documentElement.scrollWidth > innerWidth + 1)
       issues.push("Horizontal page overflow");
     for (const el of document.querySelectorAll(
-      ".portfolio-header a,.portfolio-intro a,.apple-experience button,.apple-experience a,.motion-lab button,.motion-lab input,.explorer button,.explorer input,.systems-section button,.social-links a",
+      ".site-nav a,.hero a,.apple-experience button,.apple-experience a,.motion-lab button,.motion-lab input,.explorer button,.explorer input,.social-links a,.email-link,.footer-bar a",
     )) {
       const r = el.getBoundingClientRect();
       if (!r.width || !r.height) continue;
@@ -90,13 +90,14 @@ async function reflow(page, label) {
         issues.push(`Content overflows control: ${el.textContent}`);
     }
     for (const selector of [
-      ".portfolio-intro h1",
+      ".hero h1",
+      ".highlight-tile",
+      ".about-facts",
       ".apple-story-copy",
       ".apple-study",
       ".lab-heading h2",
       ".chapter-console",
       ".work-item",
-      ".routing-study",
       ".notes-dialog[open]",
     ]) {
       for (const el of document.querySelectorAll(selector)) {

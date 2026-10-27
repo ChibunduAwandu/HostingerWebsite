@@ -8,7 +8,7 @@ The subsequent [featured Apple case study](APPLE_EXPERIENCE.md) now precedes the
 
 The portfolio should communicate who Chibundu is, what he has built, and how to contact him before asking a visitor to operate an interactive scene. The opening now gives his name, Apple role, a concrete engineering summary, a resume link, and direct links to Apple, Splunk, and EcoCar experience. The 3D lab is explicitly a personal project, not evidence of employer infrastructure or original hardware authorship.
 
-The visual language is a restrained engineering journal: warm paper, graphite, muted green, and amber reserved for controls and state. Manrope handles identity, body copy, and controls. A single upright serif title distinguishes the experimental lab; monospace is limited to technical metadata. Repeated italic slogans, volume labels, ornamental asterisks, tiny text over the canvas, and the defensive "pretty interface" heading were removed. There are no invented testimonials, client logos, AI-generated portraits, or passport imagery.
+The visual language follows product sites such as Apple and Notion: white pages, `#f5f5f7` surfaces with 28 px corners, near-black type, one blue for links and primary actions, and a single dark band for the lab and contact. Inter (variable, with optical sizing) handles every role; monospace labels, uppercase "eyebrow" metadata, and per-block disclaimers were removed. Headlines carry the message in two tones (black statement, gray continuation). Caveats about self-reported figures, explanatory diagrams, and licensed models now live in numbered footnotes at the end of the page, with the Apple-specific note kept inside that section. There are no invented testimonials, client logos, AI-generated portraits, or passport imagery.
 
 Body copy is generally 16 px at the default root size; primary controls are 14 px and supporting labels 12 px. Relative units allow text enlargement. The dense component inspector receives the same control/metadata floor rather than shrinking further on mobile.
 
@@ -22,14 +22,18 @@ Calculated sRGB relative-luminance ratios for the solid design tokens:
 
 | Use | Foreground | Background | Ratio |
 | --- | --- | --- | --- |
-| Primary text on paper | `#252b27` | `#f4f4ed` | 13.08:1 |
-| Secondary text on paper | `#515f54` | `#f4f4ed` | 6.10:1 |
-| Secondary text on education strip | `#515f54` | `#e9eddf` | 5.66:1 |
-| Lab primary text | `#edf0df` | `#202b29` | 12.60:1 |
-| Lab secondary text | `#c0cdc3` | `#202b29` | 8.87:1 |
-| Lab amber labels / focus ring | `#f6b579` | `#202b29` | 8.20:1 |
-| Lab control boundary | `#89968c` | `#202b29` | 4.73:1 |
-| Selected surface button | `#223228` | `#dce6d1` | 10.47:1 |
+| Primary text | `#1d1d1f` | `#ffffff` | 16.83:1 |
+| Secondary text | `#5e5e63` | `#ffffff` | 6.45:1 |
+| Secondary text on surface | `#5e5e63` | `#f5f5f7` | 5.92:1 |
+| Links | `#0066cc` | `#ffffff` | 5.57:1 |
+| Links on surface | `#0066cc` | `#f5f5f7` | 5.11:1 |
+| Primary button label | `#ffffff` | `#0071e3` | 4.70:1 |
+| Lab primary text | `#f5f5f7` | `#161617` | 16.61:1 |
+| Lab secondary text | `#a1a1a6` | `#161617` | 7.03:1 |
+| Lab amber labels | `#f6b579` | `#161617` | 10.17:1 |
+| Contact links | `#2997ff` | `#000000` | 6.96:1 |
+
+The earlier sage-green palette was converted to neutral grays with a luminance-preserving mapping, so component contrast ratios in the explorer and lab are unchanged from the previous verified build.
 
 The baseline scan found two education/research paragraphs at 4.34:1. The baseline inspector also used translucent labels at 3.69-4.24:1. Those styles are corrected. Selected-button hover states have explicit foreground/background pairs rather than inheriting an incompatible global hover color.
 

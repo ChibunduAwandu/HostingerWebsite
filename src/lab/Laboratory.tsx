@@ -138,18 +138,15 @@ export default function Laboratory({
       data-chapter={chapter}
       data-touring={touring}
     >
-      <div className="lab-masthead">
-        <span>
-          <i aria-hidden="true" /> Personal project / Interactive lab
-        </span>
-        <span className="lab-edition">Three.js · React · Public models</span>
-      </div>
       <div className="lab-heading">
-        <h2 id="lab-title">Intelligence in motion</h2>
+        <div>
+          <span className="lab-kicker">The lab</span>
+          <h2 id="lab-title">Perceive. Process. Act.</h2>
+        </div>
         <div>
           <p>
-            Three small experiments in perception, resilience, and control.
-            Change an input. Inspect the response.
+            Three small experiments I built with Three.js and open robotics
+            models. Change an input and watch the system respond.
           </p>
           <button
             className="guided-tour"
@@ -444,8 +441,7 @@ export default function Laboratory({
       </div>
       <div className="lab-footnote">
         <p>
-          Illustrative simulations. Not employer systems or a trained perception
-          model.
+          Simulations for illustration, not employer systems or a trained model.
           <br />
           <span>
             Models:{" "}

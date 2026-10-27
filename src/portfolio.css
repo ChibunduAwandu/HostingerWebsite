@@ -1,286 +1,4 @@
-/* Portfolio typography stays independent of the dense component inspector. */
-.portfolio-header {
-  padding-block: 1.5rem;
-  flex-wrap: wrap;
-}
-.portfolio-header .wordmark {
-  font-size: 0.9375rem;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  gap: 0.875rem;
-}
-.portfolio-header .wordmark small {
-  font:
-    0.75rem/1.5 "Manrope",
-    sans-serif;
-  letter-spacing: 0;
-}
-.portfolio-header .wordmark > span:last-child {
-  max-width: none;
-}
-.portfolio-header nav {
-  font-size: 0.875rem;
-  gap: 2rem;
-}
-.portfolio-header nav a,
-.portfolio-header nav a:first-child {
-  display: flex;
-  min-height: 44px;
-}
-.portfolio-intro {
-  padding: 3.75rem 4% 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 8%;
-  align-items: center;
-}
-.portfolio-role {
-  font-size: 0.875rem;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 1.25rem;
-}
-.portfolio-intro h1 {
-  font-size: clamp(3rem, 6vw, 5.5rem);
-  font-weight: 500;
-  letter-spacing: -0.055em;
-  line-height: 1.02;
-  margin: 0;
-}
-.portfolio-intro h1 > span {
-  color: #59774f;
-}
-.portfolio-summary > p {
-  font-size: clamp(1rem, 1.5vw, 1.3125rem);
-  line-height: 1.65;
-  max-width: 34ch;
-}
-.portfolio-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
-}
-.portfolio-actions a {
-  font-size: 0.875rem;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-.portfolio-actions .primary-link {
-  background: var(--ink);
-  color: var(--paper);
-  padding: 0.875rem 1rem;
-  border-radius: 2px;
-}
-.portfolio-actions .primary-link:hover {
-  background: var(--accent);
-}
-.link-detail {
-  font: 0.75rem var(--mono);
-  color: var(--muted);
-}
-.experience-index {
-  grid-column: 1/-1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-top: 3rem;
-  border-top: 1px solid var(--line);
-}
-.experience-index a {
-  display: grid;
-  align-content: start;
-  gap: 0.5rem;
-  padding: 1.5rem 1rem 1.5rem 0;
-  min-height: 44px;
-}
-.experience-index strong {
-  font-size: 1rem;
-  font-weight: 600;
-}
-.experience-index span {
-  font-size: 0.75rem;
-  color: var(--muted);
-  line-height: 1.65;
-}
-.portfolio-main .exhibit-intro h2 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  letter-spacing: -0.04em;
-  font-weight: 500;
-}
-.portfolio-main .engineer-section {
-  gap: 8%;
-  padding-block: 5rem;
-}
-.portfolio-main .engineer-intro {
-  max-width: 28rem;
-}
-.portfolio-main .eyebrow {
-  font: 0.75rem/1.6 var(--mono);
-  letter-spacing: 0.025em;
-}
-.portfolio-main .engineer-intro h2,
-.portfolio-main .section-heading h2 {
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  letter-spacing: -0.035em;
-  line-height: 1.15;
-  margin: 1rem 0 1.5rem;
-}
-.portfolio-main .engineer-intro p,
-.portfolio-main .work-item p,
-.portfolio-main .section-heading > p,
-.portfolio-main .practice-strip p,
-.portfolio-main .compute-assets p {
-  font-size: 1rem;
-  line-height: 1.75;
-  color: var(--muted);
-}
-.portfolio-main .outline-button {
-  font-size: 0.875rem;
-  min-height: 48px;
-}
-.portfolio-main .work-header {
-  font: 0.75rem/1.6 var(--mono);
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-.portfolio-main .work-header > span:first-child {
-  font:
-    600 1rem/1.5 "Manrope",
-    sans-serif;
-}
-.portfolio-main .work-item {
-  padding-block: 2rem;
-  scroll-margin-top: 2rem;
-}
-.portfolio-main .work-item:first-child {
-  padding-top: 0;
-}
-.portfolio-main .work-item h3 {
-  font-size: 1.5rem;
-  line-height: 1.35;
-  letter-spacing: -0.025em;
-}
-.portfolio-main .work-bottom {
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-}
-.portfolio-main .work-metric strong {
-  font-size: 2.25rem;
-  font-variant-numeric: tabular-nums;
-}
-.portfolio-main .work-metric span {
-  font-size: 0.875rem;
-  max-width: 13rem;
-}
-.portfolio-main .work-tags {
-  font-size: 0.75rem;
-  text-align: left;
-  line-height: 1.6;
-  max-width: none;
-  color: var(--muted);
-}
-.portfolio-main .systems-section {
-  padding-block: 4rem;
-}
-.portfolio-main .section-heading {
-  align-items: start;
-}
-.portfolio-main .section-heading > p {
-  max-width: 28rem;
-}
-.portfolio-main .routing-study {
-  padding: 1.5rem;
-}
-.portfolio-main .panel-heading {
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  font-size: 0.75rem;
-  line-height: 1.6;
-}
-.portfolio-main .demo-tag {
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-.portfolio-main .request-node,
-.portfolio-main .routing-status {
-  font-size: 0.875rem;
-}
-.portfolio-main .worker {
-  border-color: #75866c;
-}
-.portfolio-main .worker strong,
-.portfolio-main .worker > span:last-child {
-  font-size: 0.75rem;
-  line-height: 1.6;
-}
-.portfolio-main .worker.offline {
-  border-color: #975f44;
-}
-.portfolio-main .small-note {
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-.portfolio-main .compute-assets h3 {
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
-}
-.portfolio-main .compute-assets a,
-.portfolio-main .compute-assets .preview-note {
-  font-size: 0.75rem;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
-.portfolio-main .compute-assets a {
-  padding-block: 0.625rem;
-}
-.portfolio-main .practice-strip strong {
-  font-size: 1.125rem;
-  font-weight: 600;
-}
-.portfolio-main .contact-section {
-  padding-block: 4rem;
-  background: none;
-}
-.portfolio-main .contact-section h2 {
-  font-size: clamp(2rem, 4.5vw, 4rem);
-  line-height: 1.15;
-  letter-spacing: -0.035em;
-  margin-block: 1.25rem;
-}
-.portfolio-main .contact-section > p {
-  color: var(--muted);
-  max-width: 40rem;
-  font-size: 1rem;
-}
-.portfolio-main .email-link {
-  font-size: clamp(1rem, 2vw, 1.375rem);
-  min-height: 48px;
-  margin-top: 1rem;
-}
-.portfolio-main .social-links {
-  flex-wrap: wrap;
-  gap: 1.75rem;
-  font-size: 0.875rem;
-  margin-top: 1.25rem;
-}
-.portfolio-main .social-links a {
-  min-height: 44px;
-}
-footer {
-  font-size: 0.75rem;
-  line-height: 1.6;
-  align-items: center;
-  flex-wrap: wrap;
-}
-footer a {
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-}
+/* Explorer and dialog refinements. The page shell lives in site.css. */
 .notes-dialog .dialog-close {
   width: 44px;
   height: 44px;
@@ -350,7 +68,7 @@ footer a {
   gap: 0.5rem;
 }
 .portfolio-main .view-presets button {
-  border-color: #75846c;
+  border-color: #7f7f7f;
   min-width: 44px;
 }
 .portfolio-main .icon-tools {
@@ -359,16 +77,16 @@ footer a {
 .portfolio-main .icon-tools button {
   width: 44px;
   height: 44px;
-  border-color: #75846c;
+  border-color: #7f7f7f;
 }
 .portfolio-main .icon-tools button[aria-pressed="true"]:hover,
 .portfolio-main .explode-button[aria-pressed="true"]:hover {
-  color: #253320;
-  background: #dde5cc;
+  color: #2f2f2f;
+  background: #e2e2e2;
 }
 .portfolio-main .dark-stage .view-presets button[aria-pressed="true"] {
-  background: #dce6d1;
-  color: #223228;
+  background: #e2e2e2;
+  color: #2e2e2e;
 }
 .portfolio-main .dark-stage button:focus-visible {
   outline-color: #f6b579;
@@ -382,14 +100,14 @@ footer a {
 .portfolio-main .search-field {
   height: auto;
   min-height: 48px;
-  border-color: #75846c;
+  border-color: #7f7f7f;
 }
 .portfolio-main .search-field input {
   font-size: 1rem;
   min-height: 44px;
 }
 .portfolio-main .search-field input::placeholder {
-  color: #56644e;
+  color: #606060;
   opacity: 1;
 }
 .portfolio-main .search-field button {
@@ -403,7 +121,7 @@ footer a {
   padding: 5px;
 }
 .portfolio-main .part-row > span:first-child {
-  color: #526046;
+  color: #5c5c5c;
   font-size: 0.75rem;
 }
 .portfolio-main .part-row:focus-visible {
@@ -419,8 +137,8 @@ footer a {
   flex-wrap: wrap;
 }
 .portfolio-main .part-actions button[aria-pressed="true"]:hover {
-  background: #dde5cc;
-  color: #223228;
+  background: #e2e2e2;
+  color: #2e2e2e;
 }
 .portfolio-main .selected-part > div:first-child > button {
   min-width: 44px;
@@ -446,158 +164,41 @@ footer a {
   width: 20px;
   height: 20px;
   margin-top: -8px;
-  border: 2px solid #202b29;
+  border: 2px solid #292929;
   background: #f6b579;
   box-shadow: 0 0 0 1px #f6b579;
 }
 .motion-lab input[type="range"]::-moz-range-thumb {
   width: 18px;
   height: 18px;
-  border: 2px solid #202b29;
+  border: 2px solid #292929;
   background: #f6b579;
 }
 .motion-lab input[type="range"]::-webkit-slider-runnable-track {
   height: 4px;
-  background: #89968c;
+  background: #939393;
 }
 .motion-lab input[type="range"]::-moz-range-track {
   height: 4px;
-  background: #89968c;
+  background: #939393;
 }
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 [tabindex="-1"]:focus-visible {
-  outline: 3px solid #356341;
+  outline: 3px solid #595959;
   outline-offset: 4px;
 }
 main[tabindex]:focus {
   outline: none;
 }
-@media (max-width: 960px) {
-  .portfolio-actions {
-    gap: 0.75rem 1.25rem;
-  }
-  .portfolio-main .section-heading {
-    display: block;
-  }
-  .portfolio-main .section-heading > p {
-    max-width: 40rem;
-  }
-  .portfolio-main .systems-grid {
-    grid-template-columns: 1fr;
-  }
-  .portfolio-main .compute-assets {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-  .portfolio-main .compute-assets article {
-    display: block;
-    margin: 0;
-    padding: 0 0 1rem;
-  }
-  .portfolio-main .compute-assets img {
-    width: 100%;
-    height: 10rem;
-    margin-bottom: 1rem;
-  }
-  .portfolio-main .compute-assets .preview-note {
-    grid-column: 1/-1;
-  }
-}
-@media (max-width: 640px) {
-  .portfolio-header {
-    padding: 1.25rem 5% 0.5rem;
-    gap: 0.75rem;
-  }
-  .portfolio-header nav {
-    width: 100%;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  .portfolio-header .wordmark {
-    font-size: 0.9375rem;
-  }
-  .portfolio-header .brand-mark {
-    width: 44px;
-    height: 44px;
-    font-size: 2rem;
-  }
-  .portfolio-intro {
-    padding: 2rem 5% 0;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  .portfolio-intro h1 {
-    font-size: 3.5rem;
-  }
-  .portfolio-summary > p {
-    max-width: 36ch;
-    margin-bottom: 1rem;
-  }
-  .portfolio-actions {
-    margin-top: 0;
-  }
-  .experience-index {
-    margin-top: 0.25rem;
-    grid-template-columns: 1fr;
-  }
-  .experience-index a {
-    grid-template-columns: 5rem 1fr;
-    gap: 0.5rem;
-    padding: 0.875rem 0;
-    align-items: center;
-    border-bottom: 1px solid var(--line);
-  }
-  .experience-index a:last-child {
-    border-bottom: 0;
-  }
-  .experience-index strong {
-    font-size: 0.875rem;
-  }
-  .portfolio-main .engineer-section {
-    padding: 3rem 5%;
-    gap: 2.5rem;
-  }
-  .portfolio-main .systems-section {
-    padding: 3rem 5%;
-  }
-  .portfolio-main .routing-study {
-    padding: 1rem;
-  }
-  .portfolio-main .workers {
-    gap: 0.5rem;
-  }
-  .portfolio-main .worker {
-    padding: 0.75rem 0.25rem;
-  }
-  .portfolio-main .practice-strip {
-    padding: 2rem 5%;
-  }
-  .portfolio-main .contact-section {
-    padding: 3rem 5%;
-  }
-  .portfolio-main .email-link {
-    gap: 0.5rem;
-  }
-}
-@media (max-width: 360px) {
-  .portfolio-header nav {
-    gap: 0.75rem;
-    font-size: 0.8125rem;
-  }
-  .portfolio-main .compute-assets {
-    grid-template-columns: 1fr;
-  }
-}
 @media (prefers-contrast: more) {
   :root {
-    --muted: #303e33;
-    --line: #75846e;
+    --muted: #3b3b3b;
+    --line: #808080;
   }
   .motion-lab {
-    --lab-muted: #edf0df;
+    --lab-muted: #eeeeee;
   }
 }
 @media (forced-colors: active) {

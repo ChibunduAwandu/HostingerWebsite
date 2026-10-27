@@ -46,4 +46,4 @@ Only the selected GLB is requested. One Canvas is retained across switches; the 
 
 Layout controls stay outside the Canvas. Search, selection, hide, isolate, views, source dialogs, and separation are keyboard-accessible. Reduced motion disables auto-rotation and camera/part interpolation. Unavailable WebGL or a failed model displays a preview and leaves career/contact content usable. No-JavaScript visitors receive resume/contact fallback content.
 
-Manrope and IBM Plex Mono are locally served with SIL Open Font License texts. Human Atlas by ashemag inspired the selection/isolation/explode interaction vocabulary; no code or anatomy assets are copied. Career metrics come from the user-supplied resume and are not independently verified.
+Inter is locally served with its SIL Open Font License text. Human Atlas by ashemag inspired the selection/isolation/explode interaction vocabulary; no code or anatomy assets are copied. Career metrics come from the user-supplied resume and are not independently verified.

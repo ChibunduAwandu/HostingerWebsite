@@ -23,4 +23,4 @@ MotherBoard 3d Model preview: ARComputerFundamentals. CC BY 4.0.
 https://sketchfab.com/3d-models/mother-board-3d-model-99a5f94e130a41c48590d59877f08663
 Preview modifications: resizing and WebP compression. These are preview images only, not redistributed model archives.
 
-Manrope and IBM Plex Mono: SIL Open Font License. See included font license files.
+Inter: SIL Open Font License. See inter-OFL.txt.

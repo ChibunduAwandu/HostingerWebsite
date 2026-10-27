@@ -359,12 +359,8 @@ try {
           "Revisiting inspector anchor resets loading",
         );
       }
-      await page
-        .getByRole("button", { name: "Return to Intelligence in Motion" })
-        .click();
-      await page
-        .getByRole("heading", { level: 2, name: /Intelligence/ })
-        .waitFor();
+      await page.getByRole("button", { name: "Back to the lab" }).click();
+      await page.getByRole("heading", { level: 2, name: /Perceive/ }).waitFor();
       assert((await page.locator("canvas").count()) <= 1);
     }
     if (name === "asset-error")

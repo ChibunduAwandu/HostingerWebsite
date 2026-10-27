@@ -124,9 +124,9 @@ function Architecture() {
   }, []);
   return (
     <>
-      <color attach="background" args={["#202b29"]} />
-      <fog attach="fog" args={["#202b29", 23, 57]} />
-      <ambientLight intensity={0.75} color="#c4d4cb" />
+      <color attach="background" args={["#161617"]} />
+      <fog attach="fog" args={["#161617", 23, 57]} />
+      <ambientLight intensity={0.75} color="#d0d0d0" />
       <directionalLight
         position={[-5, 12, 8]}
         intensity={3.8}
@@ -171,7 +171,7 @@ function Architecture() {
       >
         <planeGeometry args={[200, 200]} />
         <meshStandardMaterial
-          color="#454a40"
+          color="#484848"
           roughness={0.72}
           metalness={0.2}
         />
@@ -179,7 +179,7 @@ function Architecture() {
       <instancedMesh ref={columns} args={[undefined, undefined, 24]} castShadow>
         <boxGeometry args={[0.1, 8, 0.45]} />
         <meshStandardMaterial
-          color="#789288"
+          color="#8c8c8c"
           metalness={0.65}
           roughness={0.35}
         />
@@ -187,8 +187,8 @@ function Architecture() {
       <mesh position={[8, 8.1, -7.5]}>
         <boxGeometry args={[60, 0.12, 0.5]} />
         <meshStandardMaterial
-          color="#b3d8cc"
-          emissive="#74ad9e"
+          color="#d0d0d0"
+          emissive="#a2a2a2"
           emissiveIntensity={0.5}
         />
       </mesh>
@@ -197,7 +197,7 @@ function Architecture() {
           <mesh position={[0, -0.16, 0]} receiveShadow castShadow>
             <cylinderGeometry args={[4.45, 4.55, 0.28, 80]} />
             <meshStandardMaterial
-              color={i === 1 ? "#354743" : "#747d6c"}
+              color={i === 1 ? "#434343" : "#7a7a7a"}
               metalness={0.25}
               roughness={0.55}
             />
@@ -208,7 +208,7 @@ function Architecture() {
           </mesh>
           <mesh position={[0, -0.33, 0]}>
             <cylinderGeometry args={[4.05, 4.05, 0.16, 64]} />
-            <meshStandardMaterial color="#172322" />
+            <meshStandardMaterial color="#212121" />
           </mesh>
         </group>
       ))}
@@ -472,7 +472,7 @@ function Processing(props: Props) {
           <mesh position={[0, 1, 0]} castShadow receiveShadow>
             <boxGeometry args={[1.3, 2, 1.1]} />
             <meshStandardMaterial
-              color={props.failed === i ? "#493c35" : "#59746a"}
+              color={props.failed === i ? "#493c35" : "#6e6e6e"}
               metalness={0.6}
               roughness={0.3}
             />
@@ -578,7 +578,7 @@ function ArticulatedPanda({
           <mesh receiveShadow castShadow>
             <cylinderGeometry args={[0.11, 0.12, 0.1275, 32]} />
             <meshStandardMaterial
-              color="#636e5e"
+              color="#6b6b6b"
               metalness={0.3}
               roughness={0.4}
             />

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   Check,
@@ -39,8 +38,7 @@ function RequestStudy() {
       data-mode={mode}
     >
       <div className="apple-board-heading">
-        <span>Request / response study</span>
-        <span className="apple-concept-label">Conceptual diagram</span>
+        <span>Streaming versus synchronous responses</span>
       </div>
       <div
         className="apple-mode-switch"
@@ -131,11 +129,6 @@ function RequestStudy() {
             </span>
           </div>
         </div>
-        <figcaption>
-          Shows response patterns, not Apple's internal topology. The
-          persistence link represents a relationship, not a measured execution
-          sequence.
-        </figcaption>
       </figure>
       <div className="apple-trace-controls">
         <button
@@ -170,8 +163,7 @@ function ProcessingStudy() {
       data-owner={claim.owner ?? "none"}
     >
       <div className="apple-board-heading">
-        <span>Database work / before & after</span>
-        <span className="apple-concept-label">Reported outcome</span>
+        <span>Database work, before and after</span>
       </div>
       <figure className="apple-query-comparison">
         <div>
@@ -196,10 +188,6 @@ function ProcessingStudy() {
             <span>One bulk operation</span>
           </div>
         </div>
-        <figcaption>
-          The quantity is approximate and resume-reported. This compares
-          database operations, not response time or a published benchmark.
-        </figcaption>
       </figure>
       <div className="apple-claim-heading">
         <h4>One record. One owner.</h4>
@@ -241,11 +229,6 @@ function ProcessingStudy() {
       >
         <RotateCcw size={16} /> Reset record
       </button>
-      <p className="apple-figure-note">
-        A browser-only illustration of exclusive ownership. Real distributed
-        claiming requires database coordination; this is not a scheduler
-        replica.
-      </p>
     </div>
   );
 }
@@ -259,8 +242,7 @@ function DeliveryStudy() {
       data-profile={profile}
     >
       <div className="apple-board-heading">
-        <span>Authentication migration / configuration profiles</span>
-        <span className="apple-concept-label">Conceptual diagram</span>
+        <span>One entry point, two pipelines</span>
       </div>
       <div
         className="apple-mode-switch"
@@ -309,11 +291,6 @@ function DeliveryStudy() {
             </div>
           ))}
         </div>
-        <figcaption>
-          Illustrates the configuration-profile pattern from the resume. It does
-          not expose real commands, credentials, endpoint names, or release
-          schedules.
-        </figcaption>
       </figure>
       <p className="apple-live-status" role="status">
         {profile === "legacy"
@@ -356,31 +333,29 @@ export default function AppleExperience() {
       <div id="work-apple" tabIndex={-1}>
         <header className="apple-header">
           <div>
-            <span className="apple-eyebrow">
-              Featured experience / July 2024–present
-            </span>
-            <h2 id="apple-title">
-              Apple<span aria-hidden="true">.</span>
-            </h2>
+            <span className="apple-eyebrow">July 2024 – present</span>
+            <h2 id="apple-title">Apple</h2>
           </div>
           <div className="apple-role">
             <p>
-              <strong>Software Engineer</strong>Core Engineering Team · Austin,
-              TX
+              <strong>Software Engineer</strong>Core Engineering · Austin, TX
             </p>
             <a
               href="/Chibundu_Awandu_Resume.pdf"
               target="_blank"
               rel="noreferrer"
             >
-              Read my resume <ArrowUpRight size={17} />
+              Résumé <ArrowUpRight size={17} />
               <span className="sr-only"> (PDF, opens in a new tab)</span>
             </a>
           </div>
         </header>
         <p className="apple-introduction">
-          I build the backend systems that bring AI into everyday tools, and the
-          infrastructure that keeps those systems dependable.
+          A greenfield GenAI platform for advisor tools.{" "}
+          <span>
+            Conversational AI, autofill, and summarization, served by APIs I
+            built and keep dependable.
+          </span>
         </p>
         <dl
           className="apple-outcomes"
@@ -391,7 +366,9 @@ export default function AppleExperience() {
             <dd>5</dd>
           </div>
           <div>
-            <dt>Sequential DB round-trips reworked into bulk operations</dt>
+            <dt>
+              Sequential database round-trips reworked into bulk operations
+            </dt>
             <dd>~100</dd>
           </div>
           <div>
@@ -436,9 +413,7 @@ export default function AppleExperience() {
                 )?.focus();
               }}
             >
-              <span aria-hidden="true">0{i + 1}</span>
               {item.label}
-              <ArrowDown size={16} aria-hidden="true" />
             </button>
           ))}
         </div>
@@ -453,7 +428,6 @@ export default function AppleExperience() {
             <h3>{content.title}</h3>
             <p>{content.description}</p>
             <div className="apple-outcome-note">
-              <span>Resume-reported outcome</span>
               <strong>{content.outcome}</strong>
               <p>{content.detail}</p>
             </div>
@@ -475,7 +449,7 @@ export default function AppleExperience() {
           )}
         </div>
         <div className="apple-contribution-ledger">
-          <h3>Beyond the diagrams</h3>
+          <h3>Also at Apple</h3>
           <article>
             <span>Platform architecture</span>
             <h4>One codebase, three consumers</h4>
@@ -496,10 +470,9 @@ export default function AppleExperience() {
           </article>
         </div>
         <p className="apple-source-note">
-          Experience and outcome figures are self-reported in my resume. The
-          interactive diagrams are my own explanatory models, not Apple
-          documentation, internal screenshots, live systems, or an
-          Apple-endorsed presentation.
+          Figures are self-reported in my résumé. The interactive diagrams are
+          my own explanatory models, not Apple documentation or internal
+          systems.
         </p>
       </div>
     </section>

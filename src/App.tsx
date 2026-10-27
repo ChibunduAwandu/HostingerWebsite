@@ -31,135 +31,40 @@ const work = [
     id: "splunk",
     company: "Splunk",
     period: "2023",
-    title: "Fleet security and configuration recovery",
+    title: "Fleet security and configuration recovery.",
     detail:
-      "Remediated credential exposure across 40+ servers. Built a Ruby-based Puppet provider to improve compliance and make configuration recovery more reliable.",
+      "Remediated credential exposure across more than 40 servers and built a Ruby-based Puppet provider that improved compliance and made configuration recovery more reliable.",
     metric: "40+",
     label: "servers secured",
-    tags: "SECURITY / INFRASTRUCTURE",
   },
   {
     id: "ecocar",
     company: "EcoCar EV Challenge",
-    period: "2022 / 2023",
-    title: "Pedestrian tracking for driver assistance",
+    period: "2022–2023",
+    title: "Pedestrian tracking for driver assistance.",
     detail:
-      "Integrated ADAS with C++ and ROS 2. Developed YOLO-based pedestrian tracking with Python and TensorFlow, reporting a 35% detection-accuracy improvement.",
+      "Integrated driver-assistance features with C++ and ROS 2, and built YOLO-based pedestrian tracking in Python and TensorFlow.",
     metric: "35%",
-    label: "detection accuracy improvement",
-    tags: "COMPUTER VISION / AUTONOMY",
+    label: "better detection accuracy",
   },
 ];
 
-function SystemsStudy() {
-  const [failed, setFailed] = useState<number | null>(null);
-  return (
-    <section
-      className="systems-section"
-      id="systems"
-      aria-labelledby="systems-title"
-    >
-      <div className="section-heading">
-        <div>
-          <span className="eyebrow">Engineering notes</span>
-          <h2 id="systems-title">Designing for failure</h2>
-        </div>
-        <p>
-          Remove a worker and inspect how its share is redistributed. A
-          simplified model of redundancy, not a production scheduler.
-        </p>
-      </div>
-      <div className="systems-grid">
-        <div className="routing-study">
-          <div className="panel-heading">
-            <span>FAILOVER SANDBOX</span>
-            <span className="demo-tag">ILLUSTRATIVE / NOT LIVE</span>
-          </div>
-          <div className="routing-diagram">
-            <div className="request-node">
-              Incoming work <ArrowDown size={16} />
-            </div>
-            <div className="routing-line" />
-            <div className="workers">
-              {[0, 1, 2].map((i) => (
-                <button
-                  key={i}
-                  className={failed === i ? "worker offline" : "worker"}
-                  aria-pressed={failed === i}
-                  aria-label={`${failed === i ? "Recover" : "Fail"} worker ${i + 1}`}
-                  onClick={() => setFailed(failed === i ? null : i)}
-                >
-                  <span className="worker-light" />
-                  <strong>Worker {i + 1}</strong>
-                  <span>
-                    {failed === i
-                      ? "Offline"
-                      : failed === null
-                        ? "33.3% share"
-                        : "50% share"}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <p className="routing-status" role="status">
-            {failed === null
-              ? "All workers available. Click one to simulate a failure."
-              : `Worker 0${failed + 1} is offline. Work is redistributed to the two healthy workers. Click it again to recover.`}
-          </p>
-          <p className="small-note">
-            A conceptual visualization, not Apple infrastructure or a production
-            scheduler. My related work includes atomic record claims, batching,
-            circuit breakers, and eliminating duplicate pod work.
-          </p>
-        </div>
-        <div className="compute-assets">
-          <article>
-            <img
-              loading="lazy"
-              src="/asset-previews/server.webp"
-              alt="Public 3D server rack asset preview by Shalmon"
-            />
-            <div>
-              <span className="eyebrow">INFRASTRUCTURE</span>
-              <h3>Distributed infrastructure</h3>
-              <p>Distributed processing, fleet security, resilient APIs.</p>
-              <a
-                href="https://sketchfab.com/3d-models/server-rack-c144d837358d446998c7b63cd1bdf825"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Shalmon / CC BY 4.0 <ArrowUpRight size={12} />
-              </a>
-            </div>
-          </article>
-          <article>
-            <img
-              loading="lazy"
-              src="/asset-previews/board.webp"
-              alt="Public motherboard asset preview by ARComputerFundamentals"
-            />
-            <div>
-              <span className="eyebrow">COMPUTER ENGINEERING</span>
-              <h3>Hardware foundations</h3>
-              <p>Hardware foundations. Software at scale.</p>
-              <a
-                href="https://sketchfab.com/3d-models/motherboard-3d-model-99a5f94e130a41c48590d59877f08663"
-                target="_blank"
-                rel="noreferrer"
-              >
-                ARComputerFundamentals / CC BY 4.0 <ArrowUpRight size={12} />
-              </a>
-            </div>
-          </article>
-          <p className="preview-note">
-            Credited asset previews, not interactive models.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
+const highlights = [
+  {
+    value: "0",
+    label:
+      "downtime across a four-service identity migration, shipped in five days.",
+    tone: "feature",
+  },
+  {
+    value: "10",
+    label:
+      "build, runtime, security, and CI failures resolved to ship the team's first Java 25 service.",
+  },
+  { value: "40+", label: "servers secured at Splunk.", tone: "dark" },
+  { value: "35%", label: "better pedestrian detection for EcoCar." },
+  { value: "4.0", label: "GPA in Computer Engineering, summa cum laude." },
+];
 
 export default function App() {
   const [inspecting, setInspecting] = useState(
@@ -259,63 +164,110 @@ export default function App() {
       <a className="skip-link" href="#engineer">
         Skip to work experience
       </a>
-      <header className="site-header portfolio-header">
-        <a className="wordmark" href="#top" aria-label="Chibundu Awandu home">
-          <span className="brand-mark">ca.</span>
-          <span>
-            Chibundu Awandu<small>Software Engineer · Austin, TX</small>
-          </span>
-        </a>
-        <nav aria-label="Main navigation">
-          <a href="#engineer">My work</a>
-          <a href="#laboratory">Interactive lab</a>
-          <a href="#connect">
-            Contact <ArrowUpRight size={15} />
+      <header className="site-nav">
+        <div className="site-nav-inner">
+          <a className="wordmark" href="#top" aria-label="Chibundu Awandu home">
+            Chibundu Awandu
           </a>
-        </nav>
-      </header>
-      <main id="top" className="portfolio-main" tabIndex={-1}>
-        <section className="portfolio-intro" aria-labelledby="portfolio-title">
-          <div>
-            <p className="portfolio-role">Software Engineer at Apple</p>
-            <h1 id="portfolio-title">
-              Chibundu
-              <br />
-              Awandu<span aria-hidden="true">.</span>
-            </h1>
-          </div>
-          <div className="portfolio-summary">
-            <p>
-              I build backend systems for AI products, with a background in
-              infrastructure security and computer vision.
-            </p>
-            <div className="portfolio-actions">
-              <a className="primary-link" href="#engineer">
-                Explore my Apple work <ArrowDown size={17} />
-              </a>
-              <a href={resumeHref} target="_blank" rel="noreferrer">
-                Resume <span className="link-detail">PDF</span>
-                <ArrowUpRight size={17} />
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-            </div>
-          </div>
-          <nav className="experience-index" aria-label="Experience at a glance">
-            <a href="#work-apple">
-              <strong>Apple</strong>
-              <span>GenAI backend / 2024–present</span>
+          <nav aria-label="Main navigation">
+            <a href="#engineer">Work</a>
+            <a href="#laboratory">Lab</a>
+            <a className="nav-optional" href="#about">
+              About
             </a>
-            <a href="#work-splunk">
-              <strong>Splunk</strong>
-              <span>Infrastructure security / 2023</span>
-            </a>
-            <a href="#work-ecocar">
-              <strong>EcoCar</strong>
-              <span>Computer vision / 2022–2023</span>
+            <a href="#connect">Contact</a>
+            <a
+              className="nav-pill"
+              href={resumeHref}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Résumé
+              <span className="sr-only"> (PDF, opens in a new tab)</span>
             </a>
           </nav>
+        </div>
+      </header>
+      <main id="top" className="portfolio-main" tabIndex={-1}>
+        <section className="hero" aria-labelledby="portfolio-title">
+          <p className="hero-kicker">Software Engineer at Apple</p>
+          <h1 id="portfolio-title">Chibundu Awandu</h1>
+          <p className="hero-lede">
+            I build the backend systems that bring AI into everyday tools,{" "}
+            <span>and the infrastructure that keeps them dependable.</span>
+          </p>
+          <div className="hero-actions">
+            <a className="button-primary" href="#engineer">
+              See my work
+            </a>
+            <a
+              className="text-link"
+              href={resumeHref}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Read my résumé <ChevronRight size={18} aria-hidden="true" />
+              <span className="sr-only"> (PDF, opens in a new tab)</span>
+            </a>
+          </div>
+        </section>
+        <section className="highlights" aria-labelledby="highlights-title">
+          <h2 id="highlights-title" className="section-title">
+            The highlights.
+          </h2>
+          <ul className="highlight-grid">
+            {highlights.map((item) => (
+              <li
+                key={item.label}
+                className={`highlight-tile${item.tone ? ` is-${item.tone}` : ""}`}
+              >
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="footnote-ref">
+            Figures are from my résumé and describe my own contributions.
+          </p>
         </section>
         <AppleExperience />
+        <section
+          className="engineer-section"
+          id="earlier-work"
+          tabIndex={-1}
+          aria-labelledby="engineer-title"
+        >
+          <div className="section-header">
+            <h2 id="engineer-title" className="section-title">
+              Before Apple.
+            </h2>
+            <p>
+              Infrastructure security at Splunk, and computer vision for driver
+              assistance in the EcoCar EV Challenge.
+            </p>
+          </div>
+          <div className="work-list">
+            {work.map((item) => (
+              <article
+                className="work-item"
+                id={`work-${item.id}`}
+                tabIndex={-1}
+                key={item.company}
+              >
+                <p className="work-header">
+                  <span>{item.company}</span>
+                  <span>{item.period}</span>
+                </p>
+                <h3>{item.title}</h3>
+                <p>{item.detail}</p>
+                <div className="work-metric">
+                  <strong>{item.metric}</strong>
+                  <span>{item.label}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
         {!inspecting ? (
           <Laboratory
             reducedMotion={reducedMotion}
@@ -335,30 +287,21 @@ export default function App() {
                   window.location.hash = "laboratory";
                 }}
               >
-                <ArrowDown size={14} /> Return to Intelligence in Motion
+                <ArrowDown size={14} /> Back to the lab
               </button>
-              <span>DEEP DIVE / SOURCE ASSET EXPLORER</span>
             </div>
             <section className="exhibit" aria-labelledby="hero-title">
               <div className="exhibit-intro">
                 <div>
-                  <span className="eyebrow">
-                    <span className="live-dot" /> THE SYSTEMS COLLECTION / VOL.
-                    01
-                  </span>
+                  <span className="eyebrow">The lab</span>
                   <h2 id="hero-title">Component explorer</h2>
                 </div>
                 <div className="intro-note">
-                  <span className="eyebrow">
-                    CHIBUNDU AWANDU / ENGINEER AT APPLE
-                  </span>
                   <p>
-                    I build intelligent software.
-                    <br />
-                    This is a closer look at the world it can move.
+                    Take a car and three robots apart, one assembly at a time.
                   </p>
                   <a href="#explorer">
-                    Step inside the collection <ArrowDown size={16} />
+                    Open the explorer <ArrowDown size={16} />
                   </a>
                 </div>
               </div>
@@ -388,10 +331,10 @@ export default function App() {
                     <span>
                       <span className="live-dot" />{" "}
                       {renderError
-                        ? "STATIC PREVIEW"
+                        ? "Static preview"
                         : loadedCount
-                          ? "INTERACTIVE 3D"
-                          : "LOADING ASSET"}
+                          ? "Interactive 3D"
+                          : "Loading"}
                     </span>
                     <span>
                       {exhibit.number} / {exhibit.subtitle}
@@ -455,7 +398,7 @@ export default function App() {
                     </button>
                     <div className="explode-range">
                       <div>
-                        <label htmlFor="explode">THE SUM OF ITS PARTS</label>
+                        <label htmlFor="explode">Separation</label>
                         <output htmlFor="explode">
                           {Math.round(amount * 100)}%
                         </output>
@@ -520,8 +463,8 @@ export default function App() {
                     </div>
                   </div>
                   <div className="stage-caption">
-                    <span>DRAG TO ORBIT / PINCH TO ZOOM</span>
-                    <span>{exhibit.parts.length} INSPECTABLE ASSEMBLIES</span>
+                    <span>Drag to orbit. Pinch to zoom.</span>
+                    <span>{exhibit.parts.length} assemblies</span>
                   </div>
                 </div>
                 <aside
@@ -535,11 +478,11 @@ export default function App() {
                   <h2>{exhibit.name}</h2>
                   <p className="exhibit-description">{exhibit.story}</p>
                   <div className="resume-connection">
-                    <span className="eyebrow">THE CONNECTION</span>
+                    <span className="eyebrow">Why it's here</span>
                     <p>{exhibit.connection}</p>
                   </div>
                   <div className="anatomy-heading">
-                    <span>ANATOMY INDEX</span>
+                    <span>Components</span>
                     <span>{exhibit.parts.length}</span>
                   </div>
                   <label className="search-field">
@@ -654,71 +597,42 @@ export default function App() {
           </>
         )}
         <section
-          className="engineer-section"
-          id="earlier-work"
-          tabIndex={-1}
-          aria-labelledby="engineer-title"
+          className="about-section"
+          id="about"
+          aria-labelledby="about-title"
         >
-          <div className="engineer-intro">
-            <span className="eyebrow">Earlier experience</span>
-            <h2 id="engineer-title">Security and perception</h2>
-            <p>
-              Before Apple, I worked on infrastructure security at Splunk and
-              vision-based driver assistance in the EcoCar EV Challenge.
+          <h2 id="about-title" className="section-title">
+            About.
+          </h2>
+          <div className="about-body">
+            <p className="about-lede">
+              I'm a software engineer in Austin. I like problems where the
+              system has to stay correct when things go wrong: retries,
+              duplicate work, partial failures, migrations under live traffic.
             </p>
-            <p>
-              These summaries describe my contributions. The interactive lab is
-              a separate personal study built with credited public models.
-            </p>
-            <a
-              className="outline-button"
-              href={resumeHref}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Read my resume <ArrowUpRight size={16} />
-              <span className="sr-only"> (PDF, opens in a new tab)</span>
-            </a>
-          </div>
-          <div className="work-list">
-            {work.map((item) => (
-              <article
-                className="work-item"
-                id={`work-${item.id}`}
-                tabIndex={-1}
-                key={item.company}
-              >
-                <div className="work-header">
-                  <span>{item.company}</span>
-                  <span>{item.period}</span>
-                </div>
-                <h3>{item.title}</h3>
-                <p>{item.detail}</p>
-                <div className="work-bottom">
-                  <div className="work-metric">
-                    <strong>{item.metric}</strong>
-                    <span>{item.label}</span>
-                  </div>
-                  <span className="work-tags">{item.tags}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-        <SystemsStudy />
-        <section className="practice-strip">
-          <div>
-            <span className="eyebrow">Education</span>
-            <strong>Computer Engineering, B.S.</strong>
-            <p>Bethune-Cookman University / 4.0 GPA / Summa Cum Laude</p>
-          </div>
-          <div>
-            <span className="eyebrow">Independent research</span>
-            <strong>Quantitative strategies</strong>
-            <p>
-              Kelly sizing, mean reversion, momentum, and AdaBoost. Research and
-              simulated strategy results, not live trading performance.
-            </p>
+            <dl className="about-facts">
+              <div>
+                <dt>Education</dt>
+                <dd>
+                  B.S. Computer Engineering, Bethune-Cookman University. 4.0
+                  GPA, summa cum laude.
+                </dd>
+              </div>
+              <div>
+                <dt>Independent research</dt>
+                <dd>
+                  Quantitative strategies: Kelly sizing, mean reversion,
+                  momentum, and AdaBoost, tested in simulation.
+                </dd>
+              </div>
+              <div>
+                <dt>Tools I reach for</dt>
+                <dd>
+                  Java, Spring Boot, WebFlux, MongoDB, Python, C++, ROS 2,
+                  TypeScript, Three.js.
+                </dd>
+              </div>
+            </dl>
           </div>
         </section>
         <section
@@ -727,14 +641,13 @@ export default function App() {
           tabIndex={-1}
           aria-labelledby="contact-title"
         >
-          <span className="eyebrow">Contact</span>
-          <h2 id="contact-title">Let's talk engineering.</h2>
+          <h2 id="contact-title">Say hello.</h2>
           <p>
-            For conversations about backend systems, AI infrastructure, or
+            I'm happy to talk about backend systems, AI infrastructure, or
             computer vision.
           </p>
           <a className="email-link" href="mailto:chibunduawandu@gmail.com">
-            chibunduawandu@gmail.com <ArrowUpRight />
+            chibunduawandu@gmail.com
           </a>
           <div className="social-links">
             <a
@@ -742,25 +655,42 @@ export default function App() {
               target="_blank"
               rel="noreferrer"
             >
-              GitHub <ArrowUpRight size={14} />
+              GitHub <ArrowUpRight size={14} aria-hidden="true" />
             </a>
             <a
               href="https://www.linkedin.com/in/chibundu-awandu-013a78201/"
               target="_blank"
               rel="noreferrer"
             >
-              LinkedIn <ArrowUpRight size={14} />
+              LinkedIn <ArrowUpRight size={14} aria-hidden="true" />
             </a>
             <a href={resumeHref} target="_blank" rel="noreferrer">
-              Resume <ArrowUpRight size={14} />
+              Résumé <ArrowUpRight size={14} aria-hidden="true" />
             </a>
           </div>
         </section>
       </main>
-      <footer>
-        <span>© {new Date().getFullYear()} CHIBUNDU AWANDU</span>
-        <span>AUSTIN, TEXAS</span>
-        <a href="#top">Back to top</a>
+      <footer className="site-footer">
+        <ol className="footnotes">
+          <li>
+            Career figures are self-reported in my résumé and describe my own
+            contributions. They are not independently verified benchmarks.
+          </li>
+          <li>
+            Interactive diagrams are my own explanatory models, not Apple
+            documentation, internal systems, or an endorsed presentation.
+          </li>
+          <li>
+            Lab models are credited public assets used under their licenses.
+            They are not my hardware designs. Credits are in the component
+            explorer.
+          </li>
+        </ol>
+        <div className="footer-bar">
+          <span>© {new Date().getFullYear()} Chibundu Awandu</span>
+          <span>Austin, Texas</span>
+          <a href="#top">Back to top</a>
+        </div>
       </footer>
       <div className="sr-only" role="status" aria-live="polite">
         {status}
@@ -782,8 +712,7 @@ export default function App() {
           >
             <X size={22} />
           </button>
-          <span className="eyebrow">OPEN ASSETS / ORIGINAL INTERACTIONS</span>
-          <h2>Built on shared knowledge.</h2>
+          <h2>Credits and controls</h2>
           <p>
             Drag to orbit, pinch or scroll to zoom. The separation slider moves
             source mesh assemblies, not every internal component. Select a part
@@ -827,7 +756,7 @@ export default function App() {
               Human Atlas by ashemag
             </a>
             . No application code or anatomy assets were copied. Local fonts:
-            Manrope and IBM Plex Mono, SIL Open Font License.
+            Inter, SIL Open Font License.
           </p>
           <p className="small-note">
             Independent portfolio. No endorsement by the asset creators,

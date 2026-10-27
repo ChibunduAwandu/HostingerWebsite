@@ -24,13 +24,13 @@ export const exhibits: Exhibit[] = [
   {
     id: "car",
     number: "01",
-    name: "Perception in motion.",
+    name: "Seeing the road.",
     subtitle: "Concept vehicle",
-    category: "VISION / AUTONOMY",
+    category: "Vision and autonomy",
     story:
-      "A machine is only as capable as its understanding of the world. Look beneath the surface of this concept vehicle.",
+      "A public concept car, split into its body, cabin, and running-gear assemblies. Pull it apart to see how they fit.",
     connection:
-      "At EcoCar, I integrated ADAS with C++ and ROS 2 and developed YOLO-based pedestrian tracking. This public concept model illustrates the domain; it is not the EcoCar vehicle.",
+      "At EcoCar I integrated driver assistance with C++ and ROS 2 and built YOLO-based pedestrian tracking. This model stands in for the domain. It is not the EcoCar vehicle.",
     credit: "Eric Chadwick / Darmstadt Graphics Group",
     license: "CC BY 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
@@ -58,13 +58,13 @@ export const exhibits: Exhibit[] = [
   {
     id: "hand",
     number: "02",
-    name: "Intelligence, embodied.",
+    name: "Grasping the world.",
     subtitle: "Shadow Dexterous Hand",
-    category: "AI / EMBODIED SYSTEMS",
+    category: "Embodied AI",
     story:
-      "A study in dexterity. Many small interfaces, one coordinated system. Inspect the visual links of a robotic hand.",
+      "A robotic hand made of many small links. Select any one to isolate it or hide it.",
     connection:
-      "A visual bridge to my AI and computer-engineering background. This is an independent exploration of an open robotics asset, not a claim that I developed Shadow hardware.",
+      "I studied computer engineering and work on AI systems, so robot hands are a natural curiosity. This is an open asset, not Shadow hardware I developed.",
     credit: "Shadow Robot Company / MuJoCo Menagerie",
     license: "Apache 2.0",
     licenseUrl: "/licenses/shadow_hand.txt",
@@ -93,13 +93,13 @@ export const exhibits: Exhibit[] = [
   {
     id: "go2",
     number: "03",
-    name: "Balance meets logic.",
+    name: "Walking on four legs.",
     subtitle: "Unitree Go2",
-    category: "ROBOTICS / CONTROL",
+    category: "Robotics and control",
     story:
-      "Thirteen visual assemblies. Four legs. A compact lesson in how structure and control depend on each other.",
+      "A quadruped in thirteen visual assemblies, shown in a fixed reference pose.",
     connection:
-      "Connects my ROS 2 and autonomy experience to an inspectable robotics study. The supplied model is shown in a reference pose; no live controller or physics simulation is running.",
+      "It connects to my ROS 2 and autonomy work. No live controller or physics simulation is running.",
     credit: "Unitree Robotics / MuJoCo Menagerie",
     license: "BSD 3-Clause",
     licenseUrl: "/licenses/unitree_go2.txt",
@@ -122,13 +122,13 @@ export const exhibits: Exhibit[] = [
   {
     id: "panda",
     number: "04",
-    name: "Precision has layers.",
+    name: "Moving with precision.",
     subtitle: "Franka Emika Panda",
-    category: "ENGINEERING / MANIPULATION",
+    category: "Manipulation",
     story:
-      "Follow a chain of interfaces from the fixed base to the fingertips. Separate the real visual links and examine their relationships.",
+      "A robot arm, from its fixed base to the gripper. Separate the links to see how the chain is built.",
     connection:
-      "An engineering metaphor for the systems I build: well-defined interfaces, coordinated behavior, and a deliberate end result. This asset is not a personal hardware project.",
+      "I like building services the same way: clear interfaces between parts. This is an open asset, not a hardware project of mine.",
     credit: "Franka Emika / MuJoCo Menagerie",
     license: "Apache 2.0",
     licenseUrl: "/licenses/franka_emika_panda.txt",

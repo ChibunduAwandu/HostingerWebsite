@@ -10,7 +10,7 @@ Chibundu Awandu's interactive engineering portfolio. A featured Apple case study
 - Orbit, zoom, switch viewing angles, and choose daylight or studio lighting.
 - Locally hosted assets/fonts, Meshopt geometry, WebP textures, demand rendering, capped DPR, lazy 3D code and models.
 - Employer-first introduction and experience links, a responsive 3D lab, keyboard controls, reduced motion, failed-model recovery, WebGL and no-JavaScript fallbacks.
-- Resume-backed Apple, Splunk, and EcoCar experience; interactive illustrative failover sandbox.
+- Resume-backed Apple, Splunk, and EcoCar experience in an Apple/Notion-style layout: highlights bento, case study, about, and footnoted caveats.
 - Server rack and motherboard are credited preview images, not interactive geometry. Their Sketchfab archives require a signed-in download before conversion can proceed.
 
 These are public visual assets, not Chibundu's hardware designs or a complete disassembly guide. No passport/headshot is used. See [model notes](docs/MODEL_NOTES.md) and [asset research](docs/ASSET_RESEARCH.md).

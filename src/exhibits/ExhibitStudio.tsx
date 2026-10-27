@@ -97,7 +97,7 @@ function ViewRig({
 function Stage({ dark, amount }: { dark: boolean; amount: number }) {
   return (
     <>
-      <color attach="background" args={[dark ? "#242b2a" : "#e6e6de"]} />
+      <color attach="background" args={[dark ? "#1d1d1f" : "#f5f5f7"]} />
       <ambientLight intensity={0.4} />
       <directionalLight
         castShadow
@@ -141,13 +141,13 @@ function Stage({ dark, amount }: { dark: boolean; amount: number }) {
         <mesh position={[0, -0.2, 0]} receiveShadow>
           <cylinderGeometry args={[3.8, 3.9, 0.4, 96]} />
           <meshStandardMaterial
-            color={dark ? "#363e3b" : "#c9cdc2"}
+            color={dark ? "#3c3c3c" : "#cbcbcb"}
             roughness={0.85}
           />
         </mesh>
         <mesh position={[0, -0.42, 0]}>
           <cylinderGeometry args={[3.65, 3.65, 0.06, 96]} />
-          <meshStandardMaterial color="#92998b" />
+          <meshStandardMaterial color="#979797" />
         </mesh>
         <mesh
           receiveShadow
