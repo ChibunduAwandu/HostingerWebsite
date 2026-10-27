@@ -622,11 +622,10 @@ input:focus-visible,
   --lab-muted: var(--night-muted);
   --lab-line: #424245;
   background: var(--night-surface);
-  padding: clamp(4.5rem, 9vw, 7rem) var(--gutter) clamp(3rem, 6vw, 5rem);
-}
-.motion-lab > * {
-  max-width: 1180px;
-  margin-inline: auto;
+  /* Centre the content with padding; constraining the canvas's ancestors
+     with auto margins makes headless captures re-render the scene. */
+  padding: clamp(4.5rem, 9vw, 7rem)
+    max(var(--gutter), calc((100% - 1180px) / 2)) clamp(3rem, 6vw, 5rem);
 }
 .lab-kicker {
   display: block;

@@ -60,6 +60,8 @@ export default function Laboratory({
   const [unavailable, setUnavailable] = useState(false);
   const [ready, setReady] = useState(false);
   const [inView, setInView] = useState(true);
+  // Mount the 3D world only once the lab approaches the viewport.
+  const [near, setNear] = useState(false);
   const [pageVisible, setPageVisible] = useState(!document.hidden);
   const root = useRef<HTMLElement>(null);
   const running = inView && pageVisible && !paused && !reducedMotion;
@@ -69,11 +71,23 @@ export default function Laboratory({
       ([entry]) => setInView(entry.isIntersecting),
       { rootMargin: "80px" },
     );
-    if (root.current) observer.observe(root.current);
+    const approach = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setNear(true);
+        approach.disconnect();
+      },
+      { rootMargin: "600px" },
+    );
+    if (root.current) {
+      observer.observe(root.current);
+      approach.observe(root.current);
+    }
     const visibility = () => setPageVisible(!document.hidden);
     document.addEventListener("visibilitychange", visibility);
     return () => {
       observer.disconnect();
+      approach.disconnect();
       document.removeEventListener("visibilitychange", visibility);
     };
   }, []);
@@ -244,21 +258,23 @@ export default function Laboratory({
         >
           <WorldBoundary onFail={() => setUnavailable(true)}>
             <Suspense fallback={null}>
-              <World
-                chapter={chapter}
-                surface={surface}
-                obstacle={obstacle}
-                failed={failed}
-                progress={progress}
-                running={running}
-                reducedMotion={reducedMotion || paused}
-                onReady={setReady}
-                onFail={setUnavailable}
-                onObstacle={(value) => {
-                  setTouring(false);
-                  setObstacle(value);
-                }}
-              />
+              {near && (
+                <World
+                  chapter={chapter}
+                  surface={surface}
+                  obstacle={obstacle}
+                  failed={failed}
+                  progress={progress}
+                  running={running}
+                  reducedMotion={reducedMotion || paused}
+                  onReady={setReady}
+                  onFail={setUnavailable}
+                  onObstacle={(value) => {
+                    setTouring(false);
+                    setObstacle(value);
+                  }}
+                />
+              )}
             </Suspense>
           </WorldBoundary>
           {unavailable ? (
