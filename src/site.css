@@ -765,6 +765,9 @@ input:focus-visible,
   border-radius: var(--radius-lg) 0 0 var(--radius-lg);
   background: var(--surface);
 }
+.stage-column.dark-stage {
+  background: #1d1d1f;
+}
 .stage-meta,
 .stage-view {
   background: transparent;
