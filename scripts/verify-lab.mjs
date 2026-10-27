@@ -164,6 +164,8 @@ try {
     await page.getByRole("heading", { level: 1, name: /Chibundu/ }).waitFor();
     const stage = page.getByTestId("lab-stage");
     const fallback = ["fallback", "asset-error"].includes(name);
+    // The 3D world mounts only once the lab nears the viewport.
+    await page.locator("#laboratory").scrollIntoViewIfNeeded();
     await page
       .locator(
         fallback

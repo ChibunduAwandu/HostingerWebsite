@@ -124,6 +124,8 @@ async function reflow(page, label) {
   assert.deepEqual(problems, [], label);
 }
 async function ready(page) {
+  // The 3D world mounts only once the lab nears the viewport.
+  await page.locator("#laboratory").scrollIntoViewIfNeeded();
   await page
     .locator('[data-testid="lab-stage"][data-ready="true"]')
     .waitFor({ timeout: 30000 });
